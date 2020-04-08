@@ -204,7 +204,39 @@ def processing_nifty_50_positions_data_for_plot():
 def initializing_tsne_plot(df_nifty_tsne, sliceCDS, fullCDS, indexCDS):
     """Creating BOKEH Plot and giving it specifications."""
 
-c
+    # INITIALIZING FIGURES
+    p = figure(plot_width=PLOTWIDTH, plot_height=PLOTHEIGHT, tooltips=TOOLTIPS,tools=BOKEH_TOOLS, toolbar_location='right')
+
+    # GIVING TITLES TO OUR PLOT
+    p.add_layout(Title(text="raghavsikaria9@gmail.com | https://www.linkedin.com/in/raghavsikaria/", text_font_style="italic", text_font_size="12pt"), 'above')
+    p.add_layout(Title(text="NIFTY 50 Stocks t-SNE Visualization", text_font_size="16pt"), 'above')
+    p.title.text_font_size = '20pt'
+
+    # GIVING BACKGROUND COLOR TO OUR PLOT
+    p.background_fill_color = "black"
+    p.background_fill_alpha = 0.9
+
+    # DELETING GRIDLINES FROM PLOT
+    p.xgrid.grid_line_color = None
+    p.ygrid.grid_line_color = None
+
+    # GIVING COLOR TO OUR PLOT AND ENCODING VIA SECTORS THE COMPANIES BELONG TO
+    no_of_colors = len(df_nifty_tsne['sector'].unique())
+    palette = d3['Category20'][no_of_colors]
+    factors_for_color_mapper = df_nifty_tsne['sector'].unique()
+    color_mapper = CategoricalColorMapper(factors=factors_for_color_mapper, palette=palette)
+
+    # PLOTTING ALL COMPANIES AS CIRCLE MARKERS WITH THEIR NAMES
+    p.circle(x='x',y='y',source=sliceCDS,legend='sector',color={'field': 'sector', 'transform': color_mapper},size=20,alpha=0.9)
+    company_label = LabelSet(x='x', y='y', text='label', level='glyph',x_offset=6, y_offset=6, source=sliceCDS, render_mode='canvas',text_color='white')
+    p.add_layout(company_label)
+
+    # GIVING LEGEND SPECIFICATIONS
+    p.legend.location = 'top_left'
+    p.legend.background_fill_alpha = 0.5
+    p.legend.background_fill_color = 'black'
+    p.legend.label_text_color = 'white'
+    p.legend.click_policy = 'mute'
 
     return p
 
