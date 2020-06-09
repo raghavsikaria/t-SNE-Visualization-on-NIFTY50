@@ -5,3 +5,4 @@
 *.csv linguist-detectable=false
 *.gif linguist-detectable=false
 *.bak linguist-detectable=false
+*.jpg linguist-detectable=false
